@@ -59,12 +59,12 @@ public class Inventaire {
     //  SAUVEGARDE
     // =========================
     public void sauvegarder(String fichier) {
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichier));
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichier))) {
             oos.writeObject(items);
-            oos.close();
-        } catch (Exception e) {
-            System.out.println("Erreur sauvegarde");
+            oos.writeInt(taille); // save actual size too
+            System.out.println("Sauvegarde réussie !");
+        } catch (IOException e) {
+            System.out.println("Erreur sauvegarde : " + e.getMessage());
         }
     }
 
@@ -72,13 +72,12 @@ public class Inventaire {
     // CHARGEMENT
     // =========================
     public void charger(String fichier) {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichier));
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichier))) {
             items = (Item[]) ois.readObject();
-            taille = items.length; // important pour garder cohérence
-            ois.close();
-        } catch (Exception e) {
-            System.out.println("Erreur chargement");
+            taille = ois.readInt(); // restore correct size
+            System.out.println("Chargement réussi !");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erreur chargement : " + e.getMessage());
         }
     }
 }

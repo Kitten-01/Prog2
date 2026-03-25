@@ -1,8 +1,9 @@
 package com.example.test;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Tool extends Item {
+public class Tool extends Item implements Serializable {
     private String marque;
     private String modele;
 

@@ -1,8 +1,9 @@
 package com.example.test;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Game extends Item {
+public class Game extends Item implements Serializable {
     private int age;
     private int joueurs;
 
